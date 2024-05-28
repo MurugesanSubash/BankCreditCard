@@ -2,6 +2,7 @@ package Loan_Bank.BankCreditCard;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -26,12 +27,21 @@ public class CardUsage_Entity {
     private String moneyUsed;
     private Long balanceMoney;
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE ,generator = "AA")
-    @SequenceGenerator(name = "AA",sequenceName = "BB", allocationSize = 1)
     private Long translationID;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "creditCardNumber")
+    private Credit_card_Entity cardDetails;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="creditCardNumber", nullable = false)
-    @JsonBackReference
-    private Credit_card_Entity cusDetails; 
+
+    
+
+    
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name="creditCardNumber", nullable = false)
+    // @JsonBackReference
+    // private Credit_card_Entity cusDetails; 
 }
+
+
+// @GeneratedValue(strategy = GenerationType.SEQUENCE ,generator = "AA")
+// @SequenceGenerator(name = "AA",sequenceName = "BB", allocationSize = 1)

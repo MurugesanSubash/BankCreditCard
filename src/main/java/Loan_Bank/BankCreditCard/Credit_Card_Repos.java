@@ -9,4 +9,6 @@ public interface Credit_Card_Repos extends JpaRepository <Credit_card_Entity, Lo
 
     public List<Credit_card_Entity> findByCreditCardType(String place);
 
+    public Credit_card_Entity findByCustomerName( String username);
+
 } 

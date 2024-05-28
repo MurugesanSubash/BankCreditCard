@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Credit_Card_Service {
+public class Credit_Card_Service implements UserDetailsService {
 
     @Autowired
     Credit_Card_Repos Repos_Obj;
@@ -36,5 +39,13 @@ public class Credit_Card_Service {
 
         return Repos_Obj.findByCreditCardType(type);
     }
-    
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    Credit_card_Entity user = Repos_Obj.findByCustomerName(username);
+    if(user==null){
+        throw new UsernameNotFoundException(username);
+    }
+    return user;
+    }
 }

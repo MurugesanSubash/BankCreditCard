@@ -10,7 +10,12 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import lombok.NoArgsConstructor;
@@ -20,7 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="CardCustomerDetails")
-public class Credit_card_Entity {
+public class Credit_card_Entity implements UserDetails {
 @Id
 private Long  creditCardNumber;
 private String customerName;
@@ -29,9 +34,40 @@ private String creditCardType;
 private String customerAddharNumber;
 private String customerPanNumber;
 private Long cardLimit;
+private String password;
     
 @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 @JsonManagedReference
-@JoinTable(name="Connection" , joinColumns = @JoinColumn(name="CardNumber"),inverseJoinColumns = @JoinColumn(name="translationID"))
+// @JoinTable(name="Connection" , joinColumns = @JoinColumn(name="creditCardNumber"),inverseJoinColumns = @JoinColumn(name="translationID"))
 private List <CardUsage_Entity> translList = new ArrayList<>();
+
+@Override
+public Collection<? extends GrantedAuthority> getAuthorities() {
+     return null;
+}
+
+@Override
+public String getUsername() {
+return customerName;}
+
+public String getPassword(){
+    return password;
+}
+
+@Override
+public boolean isAccountNonExpired() {
+   return true;
+}
+
+@Override
+public boolean isAccountNonLocked() {
+    return true;}
+
+@Override
+public boolean isCredentialsNonExpired() {
+    return true;}
+
+@Override
+public boolean isEnabled() {
+    return true;}
 }

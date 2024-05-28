@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,18 +17,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("creditcard")
-public class Credit_Card_Controller {
+public class Controller {
 
     @Autowired
     Credit_Card_Service Service_obj;
-
+    
+    public PasswordEncoder encoder(){
+        return new BCryptPasswordEncoder();
+    }
     @PostMapping("/addnew")
     public String newCardCustomer(@RequestBody Credit_card_Entity customerDetails){
-
+     customerDetails.setPassword(encoder().encode(customerDetails.getPassword()));
         return Service_obj.addNewCustomer(customerDetails).getCustomerName() + " has added successfully";
     }
-
-    @GetMapping("/viewall")
+    @GetMapping("/view")
     public List< Credit_card_Entity> showAllCustomer(){
         return Service_obj.showListofCustomer();
     }
@@ -58,10 +62,10 @@ public class Credit_Card_Controller {
     @Autowired
     CardUsage_Service C_Servi_obj;
 
-    @PostMapping("/addtranslation")
+    @PostMapping("/addtra")
     public String  addTransla(@RequestBody CardUsage_Entity translaDetails){
 
-        translaDetails.setBalanceMoney(translaDetails.getCusDetails().getCardLimit());
+        translaDetails.setBalanceMoney(translaDetails.getCardDetails().getCardLimit());
 
         return C_Servi_obj.addTrans(translaDetails) +" translation success";
     }
