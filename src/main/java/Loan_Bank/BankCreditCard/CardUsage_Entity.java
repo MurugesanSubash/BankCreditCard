@@ -30,16 +30,10 @@ public class CardUsage_Entity {
     private Long translationID;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "creditCardNumber")
-    private Credit_card_Entity cardDetails;
-    
+    private Credit_card_Entity cardDetails;  
+
 
     
-
-    
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name="creditCardNumber", nullable = false)
-    // @JsonBackReference
-    // private Credit_card_Entity cusDetails; 
 }
 
 
